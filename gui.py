@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 import xo
+import trigger
+
 
 
 root = Tk()
@@ -262,6 +264,7 @@ def play_again():
     reset()
     for key in xo.board:
         xo.board[key] = " "
+    trigger.first = True
     updatePos()
 
 

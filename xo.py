@@ -1,4 +1,6 @@
 import os
+import trigger
+from random import randint
 # board structure is made with a dict, index from 1 to 9 indicating positions on the board
 # all positions are intialized empty
 board = {1: " ", 2: " ", 3: " ", 
@@ -34,7 +36,6 @@ def checkDraw():
             return False
     return True
 
-dict = {0: "jgfgj", 1: "hfgg"}
 
 # function to check for win, it returns a dict i.e. {0: True, 1: 'X'}
 # which means there is a win and 'X' is the winner
@@ -129,15 +130,25 @@ def playerMove(pos):
 def aiMove():
     bestScore = -1000
     bestMove = 0
-
-    for key in board:
-        if board[key] == " ":
-            board[key] = ai
-            score = int(minimax(board, 0, False))
-            board[key] = " "
-            if score > bestScore:
-                bestScore = score
-                bestMove = key
+    
+    if trigger.first:
+        randy = randint(1,9)
+        board[randy] = ai
+        score = int(minimax(board, 0, False))
+        board[randy] = " "
+        trigger.first = False
+        if score > bestScore:
+            bestScore = score
+            bestMove = randy
+    else:
+        for key in board:
+            if board[key] == " ":
+                board[key] = ai
+                score = int(minimax(board, 0, False))
+                board[key] = " "
+                if score > bestScore:
+                    bestScore = score
+                    bestMove = key
 
     insertPos(ai, bestMove)
     return bestMove
