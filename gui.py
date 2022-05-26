@@ -25,6 +25,17 @@ def disable_all_buttons():
     b8.config(state=DISABLED)
     b9.config(state=DISABLED)
 
+def enable_all_buttons():
+    b1.config(state=NORMAL)
+    b2.config(state=NORMAL)
+    b3.config(state=NORMAL)
+    b4.config(state=NORMAL)
+    b5.config(state=NORMAL)
+    b6.config(state=NORMAL)
+    b7.config(state=NORMAL)
+    b8.config(state=NORMAL)
+    b9.config(state=NORMAL)
+
 
 # Check to see if someone won
 def checkifwon():
@@ -33,21 +44,20 @@ def checkifwon():
 
     if xo.checkWin()[0] == True:
         indxs = xo.checkWin()[2]
-        print(indxs)
         for i in range(3):
             btn[indxs[i]].config(bg="red")
 
         winner = True
         if xo.checkWin()[1] == "X":
-            messagebox.showinfo("Tic Tac Toe", "CONGRATULATIONS!  X Wins!!")
+            messagebox.showinfo("Tic Tac Toe", "Ai Wins!!")
         else:
-            messagebox.showinfo("Tic Tac Toe", "CONGRATULATIONS!  O Wins!!")
+            messagebox.showinfo("Tic Tac Toe", "Player Wins!!")
         disable_all_buttons()
         return True
 
     # Check if tie
     if xo.checkDraw():
-        messagebox.showinfo("Tic Tac Toe", "It's A Tie!\n No One Wins!")
+        messagebox.showinfo("Tic Tac Toe", "It's A Draw!\n No One Wins!")
         disable_all_buttons()
         return False
 
@@ -82,6 +92,7 @@ def b_click(b, i):
 
 
 def startClick(btn0):
+    enable_all_buttons()
     aiMoveGui()
     btn0.config(state=DISABLED)
     clicked = False
@@ -200,7 +211,7 @@ def reset():
         font=("Helvetica", 20),
         height=3,
         width=6,
-        bg="white",
+        bg="blue",
         command=lambda i=0: startClick(b0),
     )
 
@@ -220,12 +231,10 @@ def reset():
     b8.grid(row=3, column=1)
     b9.grid(row=3, column=2)
     b0.grid(row=0, column=1)
+    disable_all_buttons()
 
 
-def redIt(i1, i2, i3):
-    btn[i1].config(bg="red")
-    btn[i2].config(bg="red")
-    btn[i3].config(bg="red")
+
 
 
 def updatePos():
@@ -249,6 +258,12 @@ def playerMoveGUI(i):
     xo.playerMove(int(i))
     updatePos()
 
+def play_again():
+    reset()
+    for key in xo.board:
+        xo.board[key] = " "
+    updatePos()
+
 
 # Create menue
 my_menu = Menu(root)
@@ -257,7 +272,7 @@ root.config(menu=my_menu)
 # Create Options Menu
 options_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Options", menu=options_menu)
-options_menu.add_command(label="Rest Game", command=reset)
+options_menu.add_command(label="Rest Game", command=lambda: play_again())
 
 reset()
 

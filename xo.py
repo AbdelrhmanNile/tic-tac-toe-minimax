@@ -1,8 +1,9 @@
 import os
-from random import randint
 # board structure is made with a dict, index from 1 to 9 indicating positions on the board
 # all positions are intialized empty
-board = {1: " ", 2: " ", 3: " ", 4: " ", 5: " ", 6: " ", 7: " ", 8: " ", 9: " "}
+board = {1: " ", 2: " ", 3: " ", 
+         4: " ", 5: " ", 6: " ",
+         7: " ", 8: " ", 9: " "}
 
 # ai playes with X "maximizing"
 # player playes with O "minimizing"
@@ -33,6 +34,7 @@ def checkDraw():
             return False
     return True
 
+dict = {0: "jgfgj", 1: "hfgg"}
 
 # function to check for win, it returns a dict i.e. {0: True, 1: 'X'}
 # which means there is a win and 'X' is the winner
@@ -56,6 +58,7 @@ def checkWin():
         return {0: True, 1: board[7], 2: [7,5,3]}
     else:
         return {0: False, 1: None, 2: None}
+
 
 
 # insert a letter 'X' or 'O' at position
@@ -98,7 +101,7 @@ def minimax(board, depth, isMaximizing):
         for key in board:
             if board[key] == " ":
                 board[key] = ai
-                score = int(minimax(board, 100, False))
+                score = int(minimax(board, depth + 1, False))
                 board[key] = " "
                 if score > bestScore:
                     bestScore = score
@@ -109,8 +112,8 @@ def minimax(board, depth, isMaximizing):
 
         for key in board:
             if board[key] == " ":
-                board[key] = ai
-                score = int(minimax(board, 100, True))
+                board[key] = player
+                score = int(minimax(board, depth + 1, True))
                 board[key] = " "
                 if score < bestScore:
                     bestScore = score
@@ -120,8 +123,7 @@ def minimax(board, depth, isMaximizing):
 def playerMove(pos):
     insertPos(player, pos)
     return
-def getrand():
-    return randint(1,9)    
+   
 
 
 def aiMove():
@@ -131,7 +133,7 @@ def aiMove():
     for key in board:
         if board[key] == " ":
             board[key] = ai
-            score = int(minimax(board, 100, False))
+            score = int(minimax(board, 0, False))
             board[key] = " "
             if score > bestScore:
                 bestScore = score
@@ -141,7 +143,7 @@ def aiMove():
     return bestMove
 
 
-def start_game():
-    while not checkWin()[0]:
-        aiMove()
-        playerMove()
+
+#while not checkWin()[0]:
+#    aiMove()
+#    playerMove()
